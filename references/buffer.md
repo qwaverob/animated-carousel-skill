@@ -17,12 +17,18 @@ The user schedules the post themselves in the Buffer app on the free plan. You n
 3. **Set the type to Post, not Reel.** A carousel is a Post.
 4. **Drag in the slide MP4s, in order.** Slide 1 first, it is the cover.
 5. **Paste the caption.** Check the keyword matches the ManyChat keyword exactly.
-6. **Add a first comment.** A good place to repeat the keyword.
+6. **Optional: add a first comment (Essentials plan).** Scheduling a first comment is on Buffer's Essentials and Team plans, not Free. On Free, skip this step and tell the user to post the first comment themselves right after the post goes live. A good place to repeat the keyword.
 7. **Set the date and time.**
 8. **Schedule.**
 9. **Check it in the Publish calendar view.** The post sits on the day and time they picked.
 
-Then, right after it goes live, the user sets the ManyChat automation on that post (see `manychat.md`).
+Then, right after it goes live, the user sets the ManyChat automation on that post (see `manychat.md`). On Free, they also post the first comment then.
+
+## Free plan notes
+
+- Up to 10 scheduled posts per channel at a time. At 3 posts a day that is about 3 days ahead. If the queue is full, schedule the next one after some have gone live.
+- No first comment scheduling (that is Essentials and Team). The user posts the first comment by hand.
+- API access with 1 API key is included, but it is only for the optional upgrade below. No step above needs it.
 
 ## Tips to share
 
@@ -42,7 +48,8 @@ Then, right after it goes live, the user sets the ManyChat automation on that po
 
 This is optional and not needed to start. It is labelled optional everywhere in this skill.
 
-- What it is: a Buffer API key, a paid upgrade, about $6 per channel per month (tell the user to check current pricing). With it, the AI can set up the post in Buffer for the user.
+- What it is: a Buffer API key. With it, the AI can set up the post in Buffer for the user.
+- What it costs: API access is on every Buffer plan, and Free includes 1 API key. Buffer's Essentials plan, about $6 per channel per month (tell the user to check current pricing), adds unlimited scheduled posts and first comment scheduling.
 - What it changes: only if the user has set it up and explicitly asks, you may create a Buffer **draft** for them, after a dry run and an explicit "yes". The user still checks the draft and schedules it in Buffer. You never schedule or post.
 - Where the key lives: the user makes it in Buffer (Settings > API) and saves it on their own computer as an environment variable named `BUFFER_API_KEY`. Never ask them to paste it into the chat. Never print, log or commit it.
 
@@ -67,4 +74,6 @@ Type yes to do exactly this, or tell me what to change.
 ## Source
 
 - Buffer Help Center, "Connecting your Instagram account to Buffer": https://support.buffer.com/en-us/articles/connecting-your-instagram-account-to-buffer-n9Ad6veXsu
+- Buffer plans (free plan limits, first comment, Essentials price), checked 2026-10-28: https://buffer.com/pricing
+- Buffer API access, checked 2026-10-28: https://buffer.com/api
 - Buffer API docs (optional upgrade only): https://developers.buffer.com

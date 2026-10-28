@@ -12,7 +12,7 @@ For users who want one carousel a day without repeating themselves. The user sta
    - Rotate the goal (saves, shares, follows, DMs) across the week if the user has no preference.
 3. **User picks one.** Edits loop until they approve. Write `plan.md`.
 4. **Build.** Follow SKILL.md Steps 4 to 7: cover rule, motion plan, build, quality pass, grade stills, render, `QA PASS`, carousel approval.
-5. **Walk the user through scheduling it.** Buffer first (`buffer.md`), one step at a time. After it goes live, the ManyChat automation on that post with a new keyword if needed (`manychat.md`). The user does the clicks. You never post or schedule.
+5. **Walk the user through scheduling it.** Buffer first (`buffer.md`), one step at a time. Buffer's free plan holds up to 10 scheduled posts per channel at a time, so if the queue is full, schedule this one once some have gone live. After it goes live, the ManyChat automation on that post with a new keyword if needed (`manychat.md`). On Free, the user also posts the first comment by hand then (first comment scheduling is on Buffer's Essentials plan). The user does the clicks. You never post or schedule.
 6. **Log it.** Append the entry to `posts-log.md` once the user says it is scheduled, with status `scheduled` or `posted`, and update it if the status changes.
 
 Do not create cron jobs, scheduled tasks, or background automations for this routine. The user starts each day by saying "daily carousel".

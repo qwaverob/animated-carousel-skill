@@ -103,9 +103,9 @@ On the free plan "Any post or reel" is locked, so post first, then set the autom
 
 Full steps: `references/buffer.md`.
 
-Connect Instagram, then New > Post. Set the type to Post (not Reel), drag in the slide MP4s in order, paste the caption, add a first comment, set the date and time, and Schedule. Check it in the Publish calendar view. Try 9 AM, 12 PM or 5 PM, 2 to 3 posts a day. After it posts, add a trending audio in the Instagram app (Edit > Music). Metricool, Hootsuite or Instagram's own scheduler work the same way.
+Connect Instagram, then New > Post. Set the type to Post (not Reel), drag in the slide MP4s in order, paste the caption, set the date and time, and Schedule. Check it in the Publish calendar view. The free plan holds up to 10 scheduled posts per channel at a time. Scheduling a first comment needs Buffer's Essentials plan, so on Free, post the first comment yourself right after it goes live. Try 9 AM, 12 PM or 5 PM, 2 to 3 posts a day. After it posts, add a trending audio in the Instagram app (Edit > Music). Metricool, Hootsuite or Instagram's own scheduler work the same way.
 
-**Optional, later:** a Buffer API key (about $6 per channel per month, check current pricing) lets the AI set up the post in Buffer as a draft for you. You don't need it to start. See the end of `references/buffer.md`.
+**Optional, later:** a Buffer API key lets the AI set up the post in Buffer as a draft for you. You don't need it to start. API access is on every Buffer plan, and Free includes 1 key. Buffer's Essentials plan (about $6 per channel per month, check current pricing) adds unlimited scheduled posts and first comment scheduling. See the end of `references/buffer.md`.
 
 ## Run the scripts yourself
 

@@ -161,13 +161,13 @@ Follow `references/safety-checklist.md`. You never post or schedule, and you nev
 
 1. Confirm the Instagram account (repeat the handle, ask yes/no). It must be a professional account (Business or Creator).
 2. **ManyChat**, from `references/manychat.md`: the free plan steps (sign up, connect Instagram, the "Auto-DM links from comments" template, keyword, opening DM, optional follow-first DM, link, follow-up DM, Go Live). On the free plan "Any post or reel" is locked, so the automation is attached to the specific post right after it goes live. Do the account steps now and the automation steps once the post is live.
-3. **Buffer**, from `references/buffer.md`: connect Instagram, New > Post, type Post (not Reel), drag in the MP4s in order, paste the caption, first comment, date and time, Schedule, check the Publish calendar. Give the user the MP4 paths (`renders/slide-01.mp4` first) and the caption to copy.
+3. **Buffer**, from `references/buffer.md`: connect Instagram, New > Post, type Post (not Reel), drag in the MP4s in order, paste the caption, date and time, Schedule, check the Publish calendar. Give the user the MP4 paths (`renders/slide-01.mp4` first) and the caption to copy. The free plan holds up to 10 scheduled posts per channel at a time. A scheduled first comment is optional and needs Buffer's Essentials plan; on Free, the user posts the first comment right after the post goes live.
 4. After the post is live: the ManyChat automation on that post, then a test comment from a friend's or a second account (not their own).
 5. Once the user says it is scheduled, add it to `posts-log.md`.
 
 If the user's tool can connect Google Drive, you may offer to make the giveaway guide or checklist as a Google Doc. Remind them to share it as "Anyone with the link can view". This is optional.
 
-**Optional and secondary: the Buffer API upgrade.** Only if the user has set up the paid Buffer API key (see the end of `references/buffer.md`) **and** explicitly asks you to use it, you may create a Buffer **draft** after showing the dry run in that file and getting an explicit "yes". The user still schedules it in Buffer. Never suggest this as a required step.
+**Optional and secondary: the Buffer API upgrade.** Only if the user has set up the optional Buffer API key (every Buffer plan has API access, Free includes 1 key; see the end of `references/buffer.md`) **and** explicitly asks you to use it, you may create a Buffer **draft** after showing the dry run in that file and getting an explicit "yes". The user still schedules it in Buffer. Never suggest this as a required step.
 
 ### Step 9. Daily routine mode
 
