@@ -21,17 +21,17 @@ This file is plain markdown and works in any AI coding tool that can read files 
 | `references/buffer.md` | What Buffer can and cannot do for video carousels, plus publish steps |
 | `references/daily-routine.md` | Daily mode and the `posts-log.md` format |
 | `templates/cover-slide/` | HyperFrames project for slide 1 (hook fully visible at frame 0) |
-| `templates/content-slide/` | HyperFrames project for slides 2 to N (headline plus motion stage) |
+| `templates/content-slide/` | HyperFrames project for slides 2 to N (headline, motion stage with a checklist tick by default, progress bar) |
 | `scripts/new-carousel.sh` | Creates a carousel folder with N slide projects copied from the templates |
 | `scripts/grade-stills.sh` | Frame 0, middle and last PNG per slide, before the full render |
 | `scripts/render-slides.sh` | Renders every slide project to `renders/slide-NN.mp4` |
-| `scripts/qa.sh` | Size, codec, duration, black frame and file size checks on the MP4s |
+| `scripts/qa.sh` | Size, codec, duration, black and blank frame, file size and cover frame 0 checks on the MP4s |
 | `scripts/contact-sheet.sh` | One PNG grid of every slide for a fast visual review |
 | `examples/demo-carousel/` | A 2-slide working example with committed PNG stills |
 
 ## Prerequisites
 
-- Node.js 22 or newer (the HyperFrames CLI asks for 22+; Node 18 and 20 may work for planning but not for rendering).
+- Node.js 22 or newer (required by the HyperFrames CLI). Planning and copy need nothing installed; only building and rendering do.
 - ffmpeg and ffprobe on the PATH.
 - HyperFrames CLI: `npm install -g hyperframes` (or prefix every command with `npx hyperframes`). Check with `hyperframes doctor`.
 - A shell that runs bash scripts (macOS, Linux, or WSL on Windows).
@@ -39,7 +39,7 @@ This file is plain markdown and works in any AI coding tool that can read files 
 ## Hard rules (read before every session)
 
 1. Never post, schedule, upload, or create an automation without the user typing an explicit "yes" to a dry run that shows exactly what will happen. "Looks good" about the design is not a yes to publish.
-2. Never print, log, or echo an API key or token. Read keys only from environment variables, and mask them in any output (`sk_live...` becomes `****1a2b`).
+2. Never print, log, or echo an API key or token. Read keys only from environment variables, and mask them in any output (show at most the last 4 characters, like `****1a2b`).
 3. Never edit, rename, or delete an existing ManyChat flow or automation. List what exists, then create a new one with a unique name.
 4. Always confirm the Instagram account: print the handle you are about to use and ask "Is <handle> the right account? yes/no".
 5. Never invent numbers, results, testimonials, client names, prices, or quotes for slide copy. Use what the user gives you, or leave the claim out.
@@ -145,13 +145,14 @@ Follow `references/safety-checklist.md` for every action in this step.
 
 **ManyChat (comment keyword to DM with link).** Read `references/manychat.md` first. Summary of what it says: the public ManyChat API does not create automations, triggers, or comment keyword rules, so the comment trigger is set up **in the ManyChat app**, step by step, with the user clicking. Use the API only for the read-only checks the reference lists (for example confirming which page or account the API key belongs to), and only with `MANYCHAT_API_KEY` from the environment. Never edit an existing automation; create a new one named like `carousel-<date>-<keyword>`.
 
-The comment trigger usually needs the post to exist (a specific post or reel), so the normal order is: publish or schedule the post, then attach the ManyChat trigger to that post, then test it with a comment from a second account. If the user's ManyChat plan supports a "next post" option, the reference explains it.
+Timing: a "specific post or reel" trigger needs the post to be live, so either publish first and attach the trigger to that post right away, or set the trigger to "Next post or reel" before the carousel goes out and make sure nothing else publishes first. The trigger fires on a person's first comment on the post, so test it from a second account before announcing.
 
 **Buffer (schedule or post).** Read `references/buffer.md` first. It records what Buffer currently supports for Instagram carousels made of videos and what it does not. Then:
 
-- If the user's AI tool has a Buffer connector, use that connector's own tools. List the connected channels, print the Instagram channel name and handle, and ask the user to confirm it.
-- If they use the Buffer API, read the token from an environment variable named in `references/buffer.md`, never from the chat.
-- If neither path supports a video carousel, give the user the manual steps in the Buffer app (or the Instagram app) and the exact files and caption to use.
+- If the user's AI tool has a Buffer connector or MCP server, use that connector's own tools (do not guess tool names). List the connected channels, print the Instagram channel name and handle, and ask the user to confirm it.
+- If they use the Buffer API, read the key from the `BUFFER_API_KEY` environment variable, never from the chat.
+- The API and connectors take media as **public HTTPS links**, not file uploads. The user must host the approved MP4s somewhere public first (see `references/buffer.md` for what works). Video-only carousels through the API are not documented, so create a **draft** first and have the user check it in the Buffer app before scheduling.
+- The Buffer app itself supports carousels with videos, so the manual path always works: give the user the files in order, the caption, and the time.
 
 **Dry run before anything is sent.** Print a block like this and wait:
 

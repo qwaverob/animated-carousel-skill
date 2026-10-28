@@ -1,0 +1,27 @@
+QA report for examples/demo-carousel
+
+slide-01
+  ok   size 1080x1350
+  ok   codec h264
+  ok   pixel format yuv420p
+  ok   fps 30.00
+  ok   duration 6.000s
+  ok   file 0.948 MB
+  ok   no black frames
+  ok   no blank frames
+slide-02
+  ok   size 1080x1350
+  ok   codec h264
+  ok   pixel format yuv420p
+  ok   fps 30.00
+  ok   duration 6.000s
+  ok   file 0.384 MB
+  ok   no black frames
+  ok   no blank frames
+
+carousel
+  ok   2 slides
+  ok   cover exported: examples/demo-carousel/qa/cover-frame0.png (check the whole hook is readable)
+  ok   cover frame 0 shows as much text as the settled cover (ratio 0.982)
+
+QA PASS (2 slides, 0 warning(s))
