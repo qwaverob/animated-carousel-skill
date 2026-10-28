@@ -56,6 +56,14 @@ Clone or download this repo first:
 git clone <REPO_URL> animated-carousel-skill
 ```
 
+From the skill folder, run the setup check before you start:
+
+```bash
+node scripts/doctor.mjs
+```
+
+Fix each red line before rendering. ManyChat and Buffer keys are optional until you are ready to publish.
+
 ### Claude Code
 
 ```bash
@@ -96,23 +104,19 @@ Point it at `SKILL.md` and ask it to follow the file. All paths in the skill are
 Paste this as your first message:
 
 ```text
-Load the animated-carousel skill (or read SKILL.md in the animated-carousel-skill folder and the files it points to) and follow it exactly.
+Load the animated-carousel skill, or read its SKILL.md, and follow it.
 
-Help me make an animated Instagram carousel for my business.
+Before anything else, run `node scripts/doctor.mjs` from the skill folder. Explain every red line in plain English with one fix, and stop until required items are fixed. Keys are optional until publishing, but tell me what is missing.
 
-1. First ask me 3 to 5 short questions: audience, topic or offer, goal, comment keyword (default THIS) and DM link, and the look.
-2. Give me 5 different post concepts (hook, angle, format, slide count). I pick one and we edit until I approve.
-3. Build 5 to 7 slides as short MP4s (1080x1350, 30 fps, 5 to 7 seconds each). Slide 1 shows the whole hook from the very first frame. Use a different animation on each slide.
-4. Show me still frames before the full render, then run QA and show me the contact sheet.
-5. After I approve the carousel, walk me through the ManyChat comment keyword DM and Buffer scheduling.
+Ask me one question at a time, never a list. Give me 5 different concepts. I pick or edit one. Build 5 to 7 slides. Slide 1 shows the full hook from frame 1. Use a different animation on each slide. Show stills before the full render, then run QA.
 
-Safety rules:
-- Never post, schedule, upload or create an automation until you show me a dry run and I type yes.
-- Confirm my Instagram handle with me before any publishing step.
-- Never edit or delete my existing ManyChat automations. Create new ones with a unique name.
-- Never ask me to paste API keys in chat and never print them.
-- Never invent numbers, results, names or quotes. Ask me.
-- No em dashes in any copy.
+Publishing: never post or schedule. Show me a dry run first. Only after I say yes, create a Buffer draft. I post it myself from Buffer.
+
+ManyChat: its API cannot create comment automations. Walk me through the in-app setup, step by step. Use THIS as the default keyword and put my link in the DM. Never edit an existing automation. Then tell me to comment with the keyword on my own post to check that the DM arrives.
+
+On any error, give me one plain-English fix. Never show a stack trace or raw error dump. If still stuck, use https://ai-broker-training.vercel.app/stuck.
+
+Never ask me to paste keys in chat or print keys. Never invent numbers or results. No em dashes.
 
 Daily mode: if I say "daily carousel", read posts-log.md, give me 5 fresh ideas that do not repeat past posts, then follow the same steps.
 ```
