@@ -4,7 +4,7 @@ These rules apply in every tool (Claude Code, Codex, Grok or any other) and at e
 
 ## 1. Confirm before acting
 
-- Anything that leaves the user's computer (posting, scheduling, uploading media, creating a ManyChat automation, calling any write API) needs an explicit "yes" from the user to a dry run of that exact action.
+- Creating a Buffer draft or calling any write API needs an explicit "yes" from the user to a dry run of that exact action. Never post or schedule.
 - "Looks good", "nice", "ok" about a design is approval of the design, not permission to publish. Ask separately.
 - A yes covers one dry run. If anything changes (time, account, files, caption, keyword), show a new dry run and ask again.
 - Read-only checks (listing channels, reading page info) can run without a yes, but say what you are about to check first.
@@ -16,15 +16,14 @@ Show exactly what will happen, then stop and wait:
 ```
 DRY RUN (nothing has been sent)
 Account:   @<YOUR_IG_HANDLE> (Instagram, via <Buffer connector | Buffer API | Buffer app>)
-Action:    <create draft | schedule | post now> carousel, <N> video slides
-When:      <date time timezone>
+Action:    create Buffer draft, <N> video slides
 Files:     <path or public URL, duration, size> for every slide, in order
 Caption:   <full caption>
 ManyChat:  <new automation name>, keyword <KEYWORD>, DM link <YOUR_LINK>
 Type yes to do exactly this, or tell me what to change.
 ```
 
-Prefer creating a **draft** first, then scheduling after the user checks it in Buffer. Never use "post now" unless the user asks for it by name.
+Create a **draft** only. The user checks it and posts it from Buffer. Never schedule or post it.
 
 ## 3. Verify the account
 
@@ -33,10 +32,10 @@ Prefer creating a **draft** first, then scheduling after the user checks it in B
 - If several Instagram channels are connected, never pick one yourself.
 - For ManyChat, the read-only `getInfo` call (see `manychat.md`) shows which account the key belongs to. It must match the same Instagram account.
 
-## 4. Never post without an explicit yes
+## 4. Never schedule or post
 
-- No auto-posting, no "I went ahead and scheduled it".
-- Daily routine mode does not change this: each day's post needs its own yes.
+- No auto-posting and no "I went ahead and scheduled it".
+- Daily routine mode does not change this: create a draft only after its own dry run and yes.
 - Do not create scheduled jobs, cron entries, or background automations unless the user asks for one separately and approves a dry run of it.
 
 ## 5. ManyChat: never overwrite
@@ -48,7 +47,7 @@ Prefer creating a **draft** first, then scheduling after the user checks it in B
 
 ## 6. Keys and tokens
 
-- Keys come only from environment variables (`MANYCHAT_API_KEY`, `BUFFER_API_KEY`). Never ask the user to paste a key into the chat.
+- Keys come only from environment variables (`MANYCHAT_API_KEY`, `BUFFER_API_KEY`, or `BUFFER_ACCESS_TOKEN`). Never ask the user to paste a key into the chat.
 - Never print, echo, or log a key. Check presence with `[ -n "$MANYCHAT_API_KEY" ] && echo set`.
 - Mask in any output: show at most the last 4 characters, like `****1a2b`.
 - Do not run shell tracing (`set -x`) in a session that uses keys.
@@ -87,4 +86,5 @@ Buffer's API and connector need each MP4 at a public HTTPS link. Anyone with the
 - [ ] Dry run shown
 - [ ] Explicit yes for this dry run
 - [ ] No key printed
-- [ ] Post logged in `posts-log.md`
+- [ ] Buffer draft created only after an exact dry run and explicit yes
+- [ ] User posted it from Buffer before it is logged in `posts-log.md`

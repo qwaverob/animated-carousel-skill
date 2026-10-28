@@ -11,10 +11,10 @@ It is plain markdown plus a few bash scripts, so it works in Claude Code, Codex,
 3. Builds one HyperFrames composition per slide: 1080x1350, 30 fps, 5 to 7 s each. Slide 1 shows the whole hook from frame 0, because frame 0 is your cover.
 4. Gives every slide a different animation from an 18-technique motion menu (mask reveals, counter roll, bars, checklist ticks, card stacks, split wipes, word swaps, path draws, zoom-through, before and after, typing mockups, marquee and more).
 5. Runs a design quality pass, renders still frames for review, then the full MP4s, then automatic QA (size, codec, duration, black and blank frames, cover check) and a contact sheet.
-6. After you approve the carousel: guides the ManyChat comment keyword DM setup and Buffer scheduling, always with a dry run and an explicit "yes" first.
+6. After you approve the carousel: guides the ManyChat comment keyword DM setup and creates a Buffer draft, always with a dry run and an explicit "yes" first.
 7. Optional daily mode: 5 fresh ideas a day, checked against a local `posts-log.md` so nothing repeats.
 
-Nothing is ever posted, scheduled, or created without your explicit yes.
+Nothing is posted or scheduled. A Buffer draft is created only after your explicit yes.
 
 ## What is inside
 
@@ -140,18 +140,22 @@ Preview a slide live while editing: `cd carousels/2026-01-15-my-topic/slides/sli
 Full findings, with the doc URLs read and the date checked, are in `references/manychat.md` and `references/buffer.md`.
 
 - **ManyChat:** the public API cannot create automations, triggers, or comment keyword rules. The skill walks you through building the comment trigger in the ManyChat app and only uses the API (if you have a key) for read-only checks such as which account the key belongs to and which automations already exist. The comment trigger fires on a person's first comment on the post.
-- **Buffer:** the current API is GraphQL and takes media as public HTTPS links (no file upload). The Buffer app supports Instagram carousels with videos; a video-only carousel through the API is not documented, so the skill creates a draft first for you to check in Buffer. If your AI tool has a Buffer connector, the skill uses that connector's own tools.
+- **Buffer:** the current API is GraphQL and takes media as public HTTPS links (no file upload). The Buffer app supports Instagram carousels with videos; a video-only carousel through the API is not documented, so the skill creates a draft for you to check and post in Buffer. If your AI tool has a Buffer connector, the skill uses that connector's own tools.
 
 ## Safety
 
-- Dry run and explicit "yes" before anything is posted, scheduled, uploaded, or created.
-- The Instagram handle is printed and confirmed before publishing.
+- Dry run and explicit "yes" before a Buffer draft is created. The skill never posts or schedules.
+- The Instagram handle is printed and confirmed before a Buffer draft is created.
 - Existing ManyChat automations are never edited; new ones get unique names.
-- Keys only from environment variables (`MANYCHAT_API_KEY`, `BUFFER_API_KEY`), never printed, never pasted in chat.
-- Renders must pass `scripts/qa.sh` before upload.
+- Keys only from environment variables (`MANYCHAT_API_KEY`, `BUFFER_API_KEY`, or `BUFFER_ACCESS_TOKEN`), never printed, never pasted in chat.
+- Renders must pass `scripts/qa.sh` before a Buffer draft is created.
 - No invented numbers, results, names, or quotes in your copy.
 
 The scripts never send frames to any outside service. (HyperFrames `snapshot` can call a vision API when `GEMINI_API_KEY` is set; the scripts unset it for that call.)
+
+## Stuck?
+
+If a plain-English fix does not unblock you, visit https://ai-broker-training.vercel.app/stuck.
 
 ## Credits and licenses
 

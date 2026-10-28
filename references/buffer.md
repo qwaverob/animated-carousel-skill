@@ -1,4 +1,4 @@
-# Buffer: schedule an Instagram video carousel
+# Buffer: create an Instagram video carousel draft
 
 Checked: 2026-10-28
 
@@ -29,20 +29,19 @@ Checked: 2026-10-28
 ## Summary
 
 - Buffer's current API is GraphQL at `https://api.buffer.com` (one endpoint, always POST), with a Bearer API key from Settings > API. It is on every plan, including Free. The old REST API (`api.bufferapp.com/1/`) is called legacy and has a migration guide. Do not use it.
-- The API can create Instagram posts with image or video assets and schedule them (queue, exact time, share next, share now) or save them as drafts. Media must be a public HTTPS URL. There is no upload endpoint.
+- The API can create Instagram posts with image or video assets, including drafts. This skill only creates drafts. Media must be a public HTTPS URL. There is no upload endpoint.
 - The Buffer app supports Instagram carousels of up to 20 images and videos, mixed allowed. The API takes an ordered `assets` list, but Buffer has no Instagram carousel example and does not say that video carousels work through the API. Not verified: test as a draft first.
 - Buffer runs an official MCP server (`https://mcp.buffer.com/mcp`) and has OAuth connectors for Claude and Claude Code, ChatGPT and Codex, Grok, Cursor and others. These need no API key.
 - Automatic publishing to Instagram needs a Business or Creator account. Otherwise the post goes out as a phone notification that the user finishes by hand.
 
 ## What the API can do
 
-- Auth: header `Authorization: Bearer <key>`. Buffer's own docs store the key in the env var `BUFFER_API_KEY`. The key covers every organization and channel in the account.
+- Auth: header `Authorization: Bearer <key>`. Use `BUFFER_API_KEY` or `BUFFER_ACCESS_TOKEN`. The key covers every organization and channel in the account.
 - Find the account: `account { organizations { id name } }`.
-- Find the Instagram channel: `channels(input: { organizationId })`. Useful fields: `id`, `name`, `displayName`, `service` (`instagram`), `externalLink` (for example instagram.com/username), `isDisconnected`, `isLocked`, `isQueuePaused`, `timezone`.
+- Find the Instagram channel: `channels(input: { organizationId })`. Useful fields: `name`, `displayName`, `service` (`instagram`), `type`, `externalLink`, `isDisconnected`, `isLocked`, `isQueuePaused`, `timezone`. Buffer can report a Business or Creator type when it has that information.
 - Create a post: `createPost(input: ...)` with `channelId`, `text`, `assets`, `schedulingType`, `mode`, `dueAt`, `saveToDraft`, `metadata`, `tagIds`.
-- `schedulingType`: `automatic` ("Buffer's publishing workers send the post") or `notification` ("Buffer reminds someone to publish the post by hand").
-- `mode`: `addToQueue`, `customScheduled` (needs `dueAt`, ISO 8601), `shareNext`, `shareNow`.
-- `saveToDraft: true` saves a draft. It "will not be published until explicitly scheduled".
+- `schedulingType` and `mode` are required by `createPost`, even with `saveToDraft: true`. Use `automatic` and `addToQueue` for the draft request.
+- `saveToDraft: true` saves a draft. It will not be published until explicitly scheduled. This skill does not schedule it.
 - Assets: each entry is exactly one of `image`, `video`, or `document`. A video is `{ url, metadata: { thumbnailOffset } }`, where `thumbnailOffset` picks a frame in milliseconds. Do not set `thumbnailUrl` on a video, the API rejects it.
 - Instagram metadata: `metadata.instagram` needs `type` and `shouldShareToFeed`. Optional: `firstComment`, `geolocation`, `link`, `isAiGenerated`. Buffer describes Instagram types as post, story, reel. The `PostType` enum also contains `carousel`.
 - Also: `editPost`, `deletePost`, `posts` (filter by status: draft, needs_approval, scheduled, sending, sent, error).
@@ -59,15 +58,15 @@ Checked: 2026-10-28
 - No reading or replying to comments. The comment keyword DM needs ManyChat (see manychat.md).
 - Analytics through the API are experimental only.
 - Personal Instagram accounts cannot publish automatically.
-- Not verified: the exact API steps to turn a draft into a scheduled post. `editPost` takes `saveToDraft`, `mode`, and `dueAt`, but no example shows this. Scheduling the draft in the Buffer app is the safe route.
+- This skill does not schedule drafts. The user checks and posts the approved draft from Buffer.
 
 ## Recommended path for this skill
 
 1. Best: the user's own Buffer connector or MCP in their AI tool (OAuth, no key handling).
-2. Next: the Buffer API with `BUFFER_API_KEY`.
+2. Next: the Buffer API with `BUFFER_API_KEY` or `BUFFER_ACCESS_TOKEN`.
 3. Fallback that always works: the Buffer app (it documents mixed and video carousels).
 
-Flow for 1 and 2: host the 5 to 7 MP4s publicly > list organizations > list channels > user confirms <YOUR_IG_HANDLE> > dry run > explicit yes > create as a draft > user checks it in the Buffer app (order, crop, carousel) > user schedules it, or gives a second explicit yes for the agent to schedule.
+Flow for 1 and 2: host the 5 to 7 MP4s publicly > list organizations > list channels > user confirms <YOUR_IG_HANDLE> > dry run > explicit yes > create a draft > user checks and posts it in Buffer.
 
 ## Step-by-step
 
@@ -76,8 +75,8 @@ Connector or MCP:
 1. Use only the tools your connector lists. Buffer's MCP docs name tools such as `get_account`, `list_channels`, `get_channel`, `list_posts`, `create_post`, and `edit_post`, but your AI tool may show different names. Do not guess.
 2. Get the account. If there is more than one organization, ask the user which one.
 3. List channels, show every Instagram channel (name and link), and have the user confirm <YOUR_IG_HANDLE>.
-4. Dry run: show the channel, caption, the ordered list of video URLs, post type, publish method (automatic), and time with timezone. Do not call any write tool yet.
-5. Only after an explicit "yes": create the post with save to draft on. Then send the user to Buffer to check it.
+4. Dry run: show the channel, caption, ordered video URLs, and the draft action. Do not call any write tool yet.
+5. Only after an explicit "yes": create the post with `saveToDraft: true`. Then send the user to Buffer to check and post it.
 
 API: same steps using the read only calls below, then the write template (only after an explicit yes).
 
@@ -85,16 +84,16 @@ Manual, in the Buffer app:
 
 1. Select your Instagram account on the left of the dashboard and open the composer at the top of the queue.
 2. Choose Post. Upload the slides in order. Select the Instagram channel first (drafts without a channel are limited to 10 items).
-3. Add the caption. Choose Automatic (or Notify Me), then schedule.
+3. Add the caption and save a draft. The user posts it themselves from Buffer.
 4. Optional: click Edit Thumbnail and drag the slider to pick a frame.
 5. All slides 1080x1350 (4:5) fits Instagram's 3:4 to 1.91:1 range. The first item sets the aspect ratio for the whole carousel. Export MP4 with H.264, not HEVC or MOV.
 
 ## Safety rules
 
-- Keep the key only in `BUFFER_API_KEY`. Never ask for it in chat. Never print, echo, log, or commit it, and mask it as `****` in output.
-- Read only until the user says yes. Every `createPost`, `editPost`, or `deletePost` (or connector write tool) needs its own explicit yes.
+- Keep the key only in `BUFFER_API_KEY` or `BUFFER_ACCESS_TOKEN`. Never ask for it in chat. Never print, echo, log, or commit it, and mask it as `****` in output.
+- Stay read only until the user says yes. Use `createPost` once to create the draft. Do not edit or delete posts.
 - Always list channels and confirm the Instagram handle. Never guess a channel id.
-- Never use `shareNow` unless the user asks for it. Prefer a draft or `customScheduled`.
+- Never schedule or post. Always use `saveToDraft: true`.
 - Never edit, move, or delete posts already in the queue.
 - Public media links can be opened by anyone who has them. Only host content that is ready to go public.
 - Do not use the legacy REST API.
@@ -102,19 +101,24 @@ Manual, in the Buffer app:
 ## Read-only verification example
 
 ```bash
-[ -n "$BUFFER_API_KEY" ] && echo "BUFFER_API_KEY is set" || echo "BUFFER_API_KEY is not set"
+if [ -n "$BUFFER_API_KEY" ] || [ -n "$BUFFER_ACCESS_TOKEN" ]; then
+  echo "Buffer token is set"
+else
+  echo "Buffer token is not set"
+fi
+BUFFER_TOKEN="${BUFFER_API_KEY:-$BUFFER_ACCESS_TOKEN}"
 
 # 1. List organizations
 curl -s -X POST "https://api.buffer.com" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $BUFFER_API_KEY" \
+  -H "Authorization: Bearer $BUFFER_TOKEN" \
   -d '{"query":"query { account { organizations { id name } } }"}'
 
 # 2. List channels for the chosen organization
 curl -s -X POST "https://api.buffer.com" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $BUFFER_API_KEY" \
-  -d '{"query":"query GetChannels($organizationId: OrganizationId!) { channels(input: { organizationId: $organizationId }) { id name displayName service externalLink isDisconnected isLocked isQueuePaused timezone } }","variables":{"organizationId":"<ORG_ID>"}}'
+  -H "Authorization: Bearer $BUFFER_TOKEN" \
+  -d '{"query":"query GetChannels($organizationId: OrganizationId!) { channels(input: { organizationId: $organizationId }) { name displayName service type externalLink isDisconnected isLocked isQueuePaused timezone } }","variables":{"organizationId":"<ORG_ID>"}}'
 ```
 
 Write template (creates a draft, run only after an explicit yes; carousel shape not verified):

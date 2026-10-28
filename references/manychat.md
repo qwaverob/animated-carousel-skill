@@ -62,7 +62,7 @@ Channels: every path starts with `/fb/`, and the `getInfo` id is described as "F
 3. Timing with Buffer. "Specific post or reel" needs the carousel to be live already. Pick one:
    - Post first, then set up the automation on that specific post right away.
    - Before the post goes live, choose "Next post or reel". ManyChat says you can run only one next post or reel automation at a time. Make sure nothing else publishes first, including other posts in the Buffer queue.
-4. Default keyword: THIS. Test from a second Instagram account before announcing.
+4. Default keyword: THIS. After the post is live, tell the user to comment with THIS on their own post and check that the DM arrives before announcing.
 
 ## Step-by-step (in the ManyChat app)
 
@@ -109,6 +109,7 @@ Good to know (from the help articles):
 - Do not regenerate or delete the key in Settings > API. ManyChat warns: "Refreshing and deleting your token will disable all connected API methods."
 - The agent makes GET requests only. No POST call (send, tag, field, subscriber) without an explicit yes from the user.
 - Keep calls to a handful. Hitting limits can block requests for 24 hours.
+- After the user sets the automation live, have them leave a test comment with THIS on their own post and confirm that the DM arrives. Do not edit an existing automation to run this test.
 
 ## Read-only verification example
 
