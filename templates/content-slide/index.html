@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Carousel content slide</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>
+      /*
+        CONTENT SLIDE (slides 2 to N). Layout: top row, headline, motion stage, progress.
+        The default stage is a checklist that ticks (technique "checklist tick" in
+        references/motion-menu.md). Replace the stage markup and the STAGE block in the
+        script with another technique from the menu; keep the headline and top row.
+
+        Rule: the slide is fully settled by about 60 percent of its length, then holds.
+
+        Design tokens: keep these identical to slide 1.
+      */
+      :root {
+        --ground: oklch(0.255 0.035 165);
+        --ground-line: oklch(0.34 0.035 165);
+        --surface: oklch(0.31 0.04 165);
+        --ink: oklch(0.965 0.012 110);
+        --muted: oklch(0.82 0.025 140);
+        --accent: oklch(0.88 0.165 100);
+        --on-accent: oklch(0.24 0.035 165);
+        --font-display: "League Gothic", "Oswald", sans-serif;
+        --font-body: "Outfit", "Montserrat", sans-serif;
+        --margin: 88px;
+        --head-size: 124px;
+        --item-size: 46px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      #top {
+        position: absolute;
+        left: var(--margin);
+        right: var(--margin);
+        top: 84px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      #head {
+        position: absolute;
+        left: var(--margin);
+        right: var(--margin);
+        top: 196px;
+      }
+      .headline {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: var(--head-size);
+        line-height: 0.95;
+        letter-spacing: 0.004em;
+        max-width: 904px;
+      }
+      /* One .line per visual line, so the entrance can lift each line separately. */
+      .line {
+        display: block;
+      }
+
+      /* ---------- STAGE: checklist tick ---------- */
+      #stage {
+        position: absolute;
+        left: var(--margin);
+        right: var(--margin);
+        top: 560px;
+      }
+      .item {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+        padding: 30px 0;
+        border-top: 2px solid var(--ground-line);
+      }
+      .item:last-child {
+        border-bottom: 2px solid var(--ground-line);
+      }
+      .box {
+        position: relative;
+        flex: none;
+        width: 64px;
+        height: 64px;
+        border: 3px solid var(--muted);
+        border-radius: 10px;
+      }
+      .box-fill {
+        position: absolute;
+        inset: -3px;
+        border-radius: 10px;
+        background: var(--accent);
+        opacity: 0;
+      }
+      .tick {
+        position: absolute;
+        inset: 0;
+        width: 64px;
+        height: 64px;
+      }
+      .tick path {
+        fill: none;
+        stroke: var(--on-accent);
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 60;
+        stroke-dashoffset: 60;
+      }
+      .label {
+        font-size: var(--item-size);
+        line-height: 1.2;
+        font-weight: 500;
+        color: var(--muted);
+      }
+      /* ---------- end STAGE ---------- */
+
+      /* Progress through the carousel: fill width = slide index / total */
+      #progress {
+        position: absolute;
+        left: var(--margin);
+        right: var(--margin);
+        bottom: 96px;
+        height: 6px;
+        background: var(--ground-line);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        width: 100%;
+        height: 100%;
+        background: var(--accent);
+        transform-origin: 0% 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="slide"
+      data-start="0"
+      data-duration="6"
+      data-fps="30"
+      data-width="1080"
+      data-height="1350"
+      data-slide-index="2"
+      data-slide-total="6"
+    >
+      <header id="top">
+        <span class="handle">@your_handle</span>
+        <span class="count">2 / 6</span>
+      </header>
+
+      <section id="head">
+        <h2 class="headline">
+          <span class="line">The one point this</span>
+          <span class="line">slide makes, in two lines</span>
+        </h2>
+      </section>
+
+      <section id="stage">
+        <div class="item">
+          <div class="box"><div class="box-fill"></div><svg class="tick" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 33 L28 45 L49 21" /></svg></div>
+          <p class="label">First thing to check</p>
+        </div>
+        <div class="item">
+          <div class="box"><div class="box-fill"></div><svg class="tick" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 33 L28 45 L49 21" /></svg></div>
+          <p class="label">Second thing to check</p>
+        </div>
+        <div class="item">
+          <div class="box"><div class="box-fill"></div><svg class="tick" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 33 L28 45 L49 21" /></svg></div>
+          <p class="label">Third thing to check</p>
+        </div>
+        <div class="item">
+          <div class="box"><div class="box-fill"></div><svg class="tick" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 33 L28 45 L49 21" /></svg></div>
+          <p class="label">Fourth thing to check</p>
+        </div>
+      </section>
+
+      <div id="progress"><div class="progress-fill"></div></div>
+    </div>
+
+    <script>
+      const root = document.getElementById("root");
+      const INDEX = Number(root.dataset.slideIndex);
+      const TOTAL = Number(root.dataset.slideTotal);
+      const tl = gsap.timeline({ paused: true });
+
+      // Shared entrance (not the primary technique): headline lines rise in, 0.1 to 0.7 s.
+      tl.fromTo(
+        ".line",
+        { y: 36, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 },
+        0.1
+      );
+
+      // Progress bar grows from the previous slide's position to this one.
+      tl.fromTo(
+        ".progress-fill",
+        { scaleX: (INDEX - 1) / TOTAL },
+        { scaleX: INDEX / TOTAL, duration: 0.8, ease: "power2.out" },
+        0.2
+      );
+
+      // ---------- STAGE: checklist tick (rows appear, then each box ticks) ----------
+      tl.fromTo(
+        ".item",
+        { x: -28, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.12 },
+        0.55
+      );
+      gsap.utils.toArray(".item").forEach((item, i) => {
+        const t = 1.3 + i * 0.5;
+        tl.to(item.querySelector(".box-fill"), { opacity: 1, duration: 0.18, ease: "power1.out" }, t);
+        tl.to(item.querySelector(".tick path"), { strokeDashoffset: 0, duration: 0.32, ease: "power2.out" }, t + 0.06);
+        tl.to(item.querySelector(".label"), { color: "oklch(0.965 0.012 110)", duration: 0.25, ease: "power1.out" }, t + 0.1);
+      });
+      // Settled by about 3.3 s (55 percent of 6 s); the rest of the slide holds.
+      // ---------- end STAGE ----------
+
+      window.__timelines["slide"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
