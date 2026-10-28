@@ -1,59 +1,31 @@
 # Safety checklist
 
-These rules apply in every tool (Claude Code, Codex, Grok or any other) and at every step. When a rule and a request conflict, follow the rule and explain why.
+These rules apply in every tool (Claude, ChatGPT, Codex, Grok or any other) and at every step. When a rule and a request conflict, follow the rule and explain why.
 
-## 1. Confirm before acting
+## 1. The user posts, not the AI
 
-- Creating a Buffer draft or calling any write API needs an explicit "yes" from the user to a dry run of that exact action. Never post or schedule.
-- "Looks good", "nice", "ok" about a design is approval of the design, not permission to publish. Ask separately.
-- A yes covers one dry run. If anything changes (time, account, files, caption, keyword), show a new dry run and ask again.
-- Read-only checks (listing channels, reading page info) can run without a yes, but say what you are about to check first.
+- Never post, schedule or publish anything. The user schedules the carousel in Buffer and sets up ManyChat by hand.
+- Do not create scheduled jobs, cron entries or background automations, including for daily mode.
+- "Looks good" about a design is approval of the design. It is not a request to post.
 
-## 2. Dry run first
+## 2. No keys
 
-Show exactly what will happen, then stop and wait:
+- Never ask for an API key, token, password or login code, and never ask the user to paste one into the chat.
+- ManyChat and Buffer are set up by hand. The doctor does not check for keys.
+- Only exception: the optional Buffer API upgrade in `buffer.md`. Use it only if the user set it up and explicitly asks. Then the key comes from the `BUFFER_API_KEY` environment variable, is never printed, logged or committed, and you only create a draft after a dry run and an explicit "yes".
 
-```
-DRY RUN (nothing has been sent)
-Account:   @<YOUR_IG_HANDLE> (Instagram, via <Buffer connector | Buffer API | Buffer app>)
-Action:    create Buffer draft, <N> video slides
-Files:     <path or public URL, duration, size> for every slide, in order
-Caption:   <full caption>
-ManyChat:  <new automation name>, keyword <KEYWORD>, DM link <YOUR_LINK>
-Type yes to do exactly this, or tell me what to change.
-```
+## 3. The right Instagram account
 
-Create a **draft** only. The user checks it and posts it from Buffer. Never schedule or post it.
+- Ask which Instagram account the post is for and repeat the handle back: "Is @<handle> the right account? yes/no".
+- It must be a professional account (Business or Creator). If it is personal, give the switch steps: Profile > the three lines (menu) > Settings and activity > Account type and tools > Switch to professional account.
 
-## 3. Verify the account
+## 4. ManyChat: never overwrite
 
-- List the connected accounts or channels and print the Instagram handle you plan to use.
-- Ask: "Is @<handle> the right account? yes/no". Wait for yes.
-- If several Instagram channels are connected, never pick one yourself.
-- For ManyChat, the read-only `getInfo` call (see `manychat.md`) shows which account the key belongs to. It must match the same Instagram account.
+- Never ask the user to edit, rename, stop or delete an existing automation.
+- If a live automation already uses the same keyword, the user picks a new keyword or turns the old one off themselves.
+- Each new automation gets a name that is easy to find, for example `Carousel GUIDE 2026-01-15`.
 
-## 4. Never schedule or post
-
-- No auto-posting and no "I went ahead and scheduled it".
-- Daily routine mode does not change this: create a draft only after its own dry run and yes.
-- Do not create scheduled jobs, cron entries, or background automations.
-
-## 5. ManyChat: never overwrite
-
-- First list what exists (Automations tab in the app, or the read-only `getFlows` call).
-- Point out any live comment automation that targets all posts or uses the same keyword; ask the user how to handle it before continuing.
-- Always create a **new** automation with a unique name, for example `carousel-<YYYY-MM-DD>-<KEYWORD>`.
-- Never edit, rename, stop, or delete an existing automation, and never regenerate or delete the API key.
-
-## 6. Keys and tokens
-
-- Keys come only from environment variables (`MANYCHAT_API_KEY`, `BUFFER_API_KEY`, or `BUFFER_ACCESS_TOKEN`). Never ask the user to paste a key into the chat.
-- Never print, echo, or log a key. Check presence with `[ -n "$MANYCHAT_API_KEY" ] && echo set`.
-- Mask in any output: show at most the last 4 characters, like `****1a2b`.
-- Do not run shell tracing (`set -x`) in a session that uses keys.
-- Never write keys into files that could be committed. `.env*` is in `.gitignore`.
-
-## 7. Check the render before upload
+## 5. Check the render before handing it over
 
 `scripts/qa.sh <carousel-dir>` must print `QA PASS`. It checks:
 
@@ -63,16 +35,18 @@ Create a **draft** only. The user checks it and posts it from Buffer. Never sche
 - [ ] File sizes are sane (not near zero, not huge).
 - [ ] Slide 1 frame 0 shows the full hook (exported as `qa/cover-frame0.png`; also open it and look).
 
-Then open `qa/contact-sheet.png` and confirm the order and look of the set.
+Then open the contact sheet and confirm the order and look of the set.
 
-## 8. Content accuracy
+## 6. Content accuracy
 
 - Business names, numbers, prices, results and quotes come from the user, copied exactly.
 - If a detail is missing, ask. Never fill the gap with a plausible guess.
+- The giveaway link comes from the user. A Google Drive file must be shared as "Anyone with the link can view", and only once it is ready to be public.
 
-## 9. Public media links
+## 7. Errors
 
-Buffer's API and connector need each MP4 at a public HTTPS link. Anyone with the link can open it. Only host files that are approved and ready to be public, and tell the user where they are hosted.
+- Give one plain-English fix. Never show a stack trace or a raw error dump.
+- If still stuck: https://hedgestone-ai-training.vercel.app/stuck
 
 ## Quick checklist
 
@@ -82,9 +56,7 @@ Buffer's API and connector need each MP4 at a public HTTPS link. Anyone with the
 - [ ] `QA PASS`
 - [ ] Carousel approved
 - [ ] Instagram handle confirmed with a yes
-- [ ] ManyChat: existing automations checked, new unique name, nothing edited
-- [ ] Dry run shown
-- [ ] Explicit yes for this dry run
-- [ ] No key printed
-- [ ] Buffer draft created only after an exact dry run and explicit yes
-- [ ] User posted it from Buffer before it is logged in `posts-log.md`
+- [ ] ManyChat walked through by hand, nothing existing edited
+- [ ] Buffer walked through by hand, the user scheduled it
+- [ ] No key asked for or printed
+- [ ] Logged in `posts-log.md` only after the user scheduled it

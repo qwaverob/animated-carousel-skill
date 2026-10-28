@@ -1,6 +1,6 @@
 # Daily routine mode
 
-For users who want one carousel a day without repeating themselves.
+For users who want one carousel a day without repeating themselves. The user starts it by saying "daily carousel".
 
 ## Each day
 
@@ -12,12 +12,10 @@ For users who want one carousel a day without repeating themselves.
    - Rotate the goal (saves, shares, follows, DMs) across the week if the user has no preference.
 3. **User picks one.** Edits loop until they approve. Write `plan.md`.
 4. **Build.** Follow SKILL.md Steps 4 to 7: cover rule, motion plan, build, quality pass, grade stills, render, `QA PASS`, carousel approval.
-5. **Publish only after an explicit yes.** Dry run, account check, ManyChat (new automation, unique name), Buffer. See `safety-checklist.md`.
-6. **Log it.** Append the entry to `posts-log.md`, with status `drafted`, `scheduled` or `posted`, and update it if the status changes.
+5. **Walk the user through scheduling it.** Buffer first (`buffer.md`), one step at a time. After it goes live, the ManyChat automation on that post with a new keyword if needed (`manychat.md`). The user does the clicks. You never post or schedule.
+6. **Log it.** Append the entry to `posts-log.md` once the user says it is scheduled, with status `scheduled` or `posted`, and update it if the status changes.
 
-Each day's post needs its own yes. A yes yesterday is not a yes today.
-
-Do not create cron jobs, scheduled tasks, or background automations to run this routine unless the user asks for one separately and approves a dry run of exactly what it will do. The default is that the user starts each day's session.
+Do not create cron jobs, scheduled tasks, or background automations for this routine. The user starts each day by saying "daily carousel".
 
 ## posts-log.md format
 
@@ -31,8 +29,8 @@ Do not create cron jobs, scheduled tasks, or background automations to run this 
 
 - One row per carousel, newest at the bottom.
 - `Techniques` lists the primary technique numbers from `motion-menu.md`, so the next day can vary them.
-- `Status` is one of: `planned`, `drafted`, `scheduled <date time>`, `posted`, `cancelled`.
-- Never store API keys, private customer data, or DM contents in the log.
+- `Status` is one of: `planned`, `scheduled <date time>`, `posted`, `cancelled`.
+- Never store passwords, private customer data, or DM contents in the log.
 
 ## Idea sources that stay fresh
 
