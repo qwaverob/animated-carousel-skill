@@ -46,7 +46,7 @@ This file is plain markdown and works in any AI coding tool that can read files 
 6. No em dashes or en dashes in any slide copy, caption, or DM text. Use commas, periods, or colons.
 7. Never render the full set before the grade stills pass. Never create a Buffer draft before `scripts/qa.sh` passes.
 8. Do not invent API endpoints. `references/manychat.md` and `references/buffer.md` list what was verified in the official docs and when. If something there says "not supported", walk the user through the manual steps instead.
-9. On any error, give one plain-English fix. Never show a stack trace or raw error dump. If still stuck, use https://ai-broker-training.vercel.app/stuck.
+9. On any error, give one plain-English fix. Never show a stack trace or raw error dump. If still stuck, use https://ai-broker-training.vercel.app/stuck. Still stuck? Submit it here: https://ai-broker-training.vercel.app/questions
 
 ## The flow
 

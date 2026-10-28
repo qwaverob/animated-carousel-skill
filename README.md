@@ -6,7 +6,7 @@ It is plain markdown plus a few bash scripts, so it works in Claude Code, Codex,
 
 ## What it does
 
-1. Asks you 3 to 5 short questions (audience, topic or offer, goal, comment keyword, look).
+1. Runs a setup check (`node scripts/doctor.mjs`), then asks you short questions one at a time (audience, topic or offer, goal, comment keyword, look).
 2. Gives you 5 different post concepts with hook, angle, format and slide count. You pick and edit until you approve.
 3. Builds one HyperFrames composition per slide: 1080x1350, 30 fps, 5 to 7 s each. Slide 1 shows the whole hook from frame 0, because frame 0 is your cover.
 4. Gives every slide a different animation from an 18-technique motion menu (mask reveals, counter roll, bars, checklist ticks, card stacks, split wipes, word swaps, path draws, zoom-through, before and after, typing mockups, marquee and more).
@@ -114,11 +114,13 @@ Publishing: never post or schedule. Show me a dry run first. Only after I say ye
 
 ManyChat: its API cannot create comment automations. Walk me through the in-app setup, step by step. Use THIS as the default keyword and put my link in the DM. Never edit an existing automation. Then tell me to comment with the keyword on my own post to check that the DM arrives.
 
-On any error, give me one plain-English fix. Never show a stack trace or raw error dump. If still stuck, use https://ai-broker-training.vercel.app/stuck.
+On any error, give me one plain-English fix. Never show a stack trace or raw error dump. If still stuck, open the Stuck page on the Hedgestone AI Training site: https://ai-broker-training.vercel.app/stuck
 
 Never ask me to paste keys in chat or print keys. Never invent numbers or results. No em dashes.
 
 Daily mode: if I say "daily carousel", read posts-log.md, give me 5 fresh ideas that do not repeat past posts, then follow the same steps.
+
+Still stuck? Submit it here: https://ai-broker-training.vercel.app/questions
 ```
 
 ## Run the scripts yourself
@@ -155,7 +157,9 @@ The scripts never send frames to any outside service. (HyperFrames `snapshot` ca
 
 ## Stuck?
 
-If a plain-English fix does not unblock you, visit https://ai-broker-training.vercel.app/stuck.
+If a plain-English fix does not unblock you, open the Stuck page on the Hedgestone AI Training site: https://ai-broker-training.vercel.app/stuck
+
+Still stuck? Submit it here: https://ai-broker-training.vercel.app/questions
 
 ## Credits and licenses
 
