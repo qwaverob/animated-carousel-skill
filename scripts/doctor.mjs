@@ -46,9 +46,8 @@ function commandVersion(command, args) {
 }
 
 function commandPath(command) {
-  const result = spawnSync("command", ["-v", command], {
+  const result = spawnSync("/bin/sh", ["-c", 'command -v "$1"', "sh", command], {
     encoding: "utf8",
-    shell: true,
     timeout: 2000,
   });
   const found = result.stdout.trim();
