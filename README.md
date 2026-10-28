@@ -1,6 +1,6 @@
 # animated-carousel
 
-An AI skill that turns one idea into an animated Instagram carousel: 5 to 7 short MP4 video slides, built from HTML with [HyperFrames](https://hyperframes.heygen.com), checked frame by frame, and (only when you say yes) wired to a ManyChat comment keyword DM and scheduled in Buffer.
+An AI skill that turns one idea into an animated Instagram carousel: 5 to 7 short MP4 video slides, built from HTML with [HyperFrames](https://hyperframes.heygen.com), checked frame by frame, then paired with a ManyChat comment keyword DM walkthrough and a Buffer draft after you say yes.
 
 It is plain markdown plus a few bash scripts, so it works in Claude Code, Codex, Grok, or any AI tool that can read files and run shell commands.
 

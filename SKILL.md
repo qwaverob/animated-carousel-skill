@@ -5,7 +5,7 @@ description: Plan, build, check and (only after explicit approval) publish an an
 
 # Animated carousel
 
-Turn one idea into a 5 to 7 slide animated Instagram carousel: each slide is a short MP4 built from HTML with HyperFrames, checked frame by frame, then (only when the user says yes) wired to a comment keyword DM in ManyChat and scheduled in Buffer.
+Turn one idea into a 5 to 7 slide animated Instagram carousel: each slide is a short MP4 built from HTML with HyperFrames, checked frame by frame, then paired with a ManyChat comment keyword DM walkthrough and a Buffer draft after the user says yes.
 
 This file is plain markdown and works in any AI coding tool that can read files and run shell commands (Claude Code, Codex, Grok and others). All paths below are relative to this skill's folder, called `SKILL_DIR` here (the folder that contains this file).
 
@@ -188,7 +188,7 @@ When the user asks for a daily carousel habit, follow `references/daily-routine.
 3. Build the one they pick with Steps 4 to 7.
 4. Create a Buffer draft only after the dry run and an explicit yes. The user posts it from Buffer, then it is logged.
 
-Do not set up scheduled jobs or background automations for the daily routine unless the user asks for that separately and confirms it.
+Do not set up scheduled jobs or background automations for the daily routine.
 
 ## Safety checklist (run at every step)
 

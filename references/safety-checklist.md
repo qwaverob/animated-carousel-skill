@@ -36,7 +36,7 @@ Create a **draft** only. The user checks it and posts it from Buffer. Never sche
 
 - No auto-posting and no "I went ahead and scheduled it".
 - Daily routine mode does not change this: create a draft only after its own dry run and yes.
-- Do not create scheduled jobs, cron entries, or background automations unless the user asks for one separately and approves a dry run of it.
+- Do not create scheduled jobs, cron entries, or background automations.
 
 ## 5. ManyChat: never overwrite
 
